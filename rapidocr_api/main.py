@@ -13,18 +13,19 @@ import numpy as np
 import uvicorn
 from fastapi import FastAPI, Form, UploadFile
 from PIL import Image
-from rapidocr import RapidOCR
 
-# if importlib.util.find_spec("rapidocr_onnxruntime"):
-#     from rapidocr_onnxruntime import RapidOCR
-# elif importlib.util.find_spec("rapidocr_paddle"):
-#     from rapidocr_paddle import RapidOCR
-# elif importlib.util.find_spec("rapidocr_openvino"):
-#     from rapidocr_openvino import RapidOCR
-# else:
-#     raise ImportError(
-#         "Please install one of [rapidocr_onnxruntime,rapidocr-paddle,rapidocr-openvino]"
-#     )
+# from rapidocr import RapidOCR
+
+if importlib.util.find_spec("rapidocr_onnxruntime"):
+    from rapidocr_onnxruntime import RapidOCR
+elif importlib.util.find_spec("rapidocr_paddle"):
+    from rapidocr_paddle import RapidOCR
+elif importlib.util.find_spec("rapidocr_openvino"):
+    from rapidocr_openvino import RapidOCR
+else:
+    raise ImportError(
+        "Please install one of [rapidocr_onnxruntime,rapidocr-paddle,rapidocr-openvino]"
+    )
 
 sys.path.append(str(Path(__file__).resolve().parent.parent))
 
