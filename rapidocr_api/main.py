@@ -3,6 +3,7 @@
 # @Contact: liekkaskono@163.com
 import argparse
 import base64
+import importlib
 import io
 import os
 import sys
@@ -13,8 +14,6 @@ import numpy as np
 import uvicorn
 from fastapi import FastAPI, Form, UploadFile
 from PIL import Image
-
-# from rapidocr import RapidOCR
 
 if importlib.util.find_spec("rapidocr_onnxruntime"):
     from rapidocr_onnxruntime import RapidOCR
