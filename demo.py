@@ -17,7 +17,7 @@ with open(img_path, "rb") as fa:
 payload = {"image_data": img_str}
 response = requests.post(url, data=payload)  # , timeout=60
 
-print(response.json())
+print(response)
 etime = time.time() - stime
 print(f"用时:{etime:.3f}秒")
 

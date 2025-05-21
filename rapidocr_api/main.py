@@ -3,7 +3,6 @@
 # @Contact: liekkaskono@163.com
 import argparse
 import base64
-import importlib
 import io
 import os
 import sys
@@ -29,21 +28,27 @@ class OCRAPIUtils:
             self.ocr = RapidOCR()
         else:
             self.ocr = RapidOCR(
-                det_model_path=det_model_path,
-                cls_model_path=cls_model_path,
-                rec_model_path=rec_model_path,
+                params={
+                    "Det.model_path": det_model_path,
+                    "Cls.model_path": cls_model_path,
+                    "Rec.model_path": rec_model_path,
+                }
             )
 
     def __call__(
-        self, img: Image.Image, use_det=None, use_cls=None, use_rec=None, **kwargs
+        self, ori_img: Image.Image, use_det=None, use_cls=None, use_rec=None, **kwargs
     ) -> Dict:
-        img = np.array(img)
-        ocr_res, _ = self.ocr(
+        img = np.array(ori_img)
+        ocr_res = self.ocr(
             img, use_det=use_det, use_cls=use_cls, use_rec=use_rec, **kwargs
         )
 
         if not ocr_res:
             return {}
+
+        import pdb
+
+        pdb.set_trace()
 
         out_dict = {}
         for i, dats in enumerate(ocr_res):
