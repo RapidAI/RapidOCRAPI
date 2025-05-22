@@ -19,8 +19,7 @@ def read_txt(txt_path: str) -> List:
 
 
 def get_readme():
-    root_dir = Path(__file__).resolve().parent.parent
-    readme_path = str(root_dir / "docs" / "doc_whl_rapidocr_api.md")
+    readme_path = str(Path("docs") / "doc_whl_rapidocr_api.md")
     with open(readme_path, "r", encoding="utf-8") as f:
         readme = f.read()
     return readme
