@@ -20,7 +20,6 @@ jobs:
 
       - name: Run setup.py
         run: |
-          cd api
           pip install -r requirements.txt
           pip install get_pypi_latest_version wheel
 
