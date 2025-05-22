@@ -77,9 +77,4 @@ setuptools.setup(
             f"{MODULE_NAME}={MODULE_NAME}.main:main",
         ],
     },
-    extras_require={
-        "onnx": ["rapidocr-onnxruntime"],
-        "paddle": ["rapidocr-paddle"],
-        "openvino": ["rapidocr-openvino"],
-    },
 )

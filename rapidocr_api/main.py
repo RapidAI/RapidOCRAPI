@@ -3,7 +3,6 @@
 # @Contact: liekkaskono@163.com
 import argparse
 import base64
-import importlib
 import io
 import os
 import sys
@@ -14,17 +13,7 @@ import numpy as np
 import uvicorn
 from fastapi import FastAPI, Form, UploadFile
 from PIL import Image
-
-if importlib.util.find_spec("rapidocr_onnxruntime"):
-    from rapidocr_onnxruntime import RapidOCR
-elif importlib.util.find_spec("rapidocr_paddle"):
-    from rapidocr_paddle import RapidOCR
-elif importlib.util.find_spec("rapidocr_openvino"):
-    from rapidocr_openvino import RapidOCR
-else:
-    raise ImportError(
-        "Please install one of [rapidocr_onnxruntime,rapidocr-paddle,rapidocr-openvino]"
-    )
+from rapidocr import RapidOCR
 
 sys.path.append(str(Path(__file__).resolve().parent.parent))
 
@@ -39,36 +28,29 @@ class OCRAPIUtils:
             self.ocr = RapidOCR()
         else:
             self.ocr = RapidOCR(
-                det_model_path=det_model_path,
-                cls_model_path=cls_model_path,
-                rec_model_path=rec_model_path,
+                params={
+                    "Det.model_path": det_model_path,
+                    "Cls.model_path": cls_model_path,
+                    "Rec.model_path": rec_model_path,
+                }
             )
 
     def __call__(
-        self, img: Image.Image, use_det=None, use_cls=None, use_rec=None, **kwargs
+        self, ori_img: Image.Image, use_det=None, use_cls=None, use_rec=None, **kwargs
     ) -> Dict:
-        img = np.array(img)
-        ocr_res, _ = self.ocr(
+        img = np.array(ori_img)
+        ocr_res = self.ocr(
             img, use_det=use_det, use_cls=use_cls, use_rec=use_rec, **kwargs
         )
 
-        if not ocr_res:
+        if ocr_res.boxes is None or ocr_res.txts is None or ocr_res.scores is None:
             return {}
 
         out_dict = {}
-        for i, dats in enumerate(ocr_res):
-            values = {}
-            for dat in dats:
-                if isinstance(dat, str):
-                    values["rec_txt"] = dat
-
-                if isinstance(dat, np.float32):
-                    values["score"] = f"{dat:.4f}"
-
-                if isinstance(dat, list):
-                    values["dt_boxes"] = dat
-            out_dict[str(i)] = values
-
+        for i, (boxes, txt, score) in enumerate(
+            zip(ocr_res.boxes, ocr_res.txts, ocr_res.scores)
+        ):
+            out_dict[i] = {"rec_txt": txt, "dt_boxes": boxes.tolist(), "score": score}
         return out_dict
 
 
@@ -100,6 +82,7 @@ def ocr(
             "When sending a post request, data or files must have a value."
         )
     ocr_res = processor(img, use_det=use_det, use_cls=use_cls, use_rec=use_rec)
+
     return ocr_res
 
 
