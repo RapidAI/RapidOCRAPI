@@ -15,20 +15,20 @@
 
 </div>
 
-### 简介
+### 📖 简介
 
 - 该包是将[rapidocr](./rapidocr/install.md)库做了API封装，采用[FastAPI](https://fastapi.tiangolo.com/) + [uvicorn](https://www.uvicorn.org/)实现。
 - 定位是一个快速调用`rapidocr`的API接口，没有考虑多进程处理并发请求，如果有这需求的小伙伴，可以看看[gunicorn](https://gunicorn.org/)等。
 
-### 安装
+### 🛠️ 安装
 
 ```bash linenums="1"
 pip install rapidocr_api
 ```
 
-### 使用
+### 🚀 使用
 
-#### 启动服务
+#### ▶️ 启动服务
 
 ```bash
 # 默认参数启动
@@ -38,13 +38,15 @@ rapidocr_api
 rapidocr_api -ip 0.0.0.0 -p 9005 -workers 2
 ```
 
-#### 调用服务
+#### 📞 调用服务
+
+💻 命令行使用：
 
 ```bash
 curl -F image_file=@1.png http://0.0.0.0:9003/ocr
 ```
 
-Python脚本使用：
+🐍 Python脚本使用：
 
 ```python
 import requests
@@ -59,6 +61,6 @@ with open(img_path, 'rb') as f:
 print(response.json())
 ```
 
-### 文档
+### 📚 文档
 
 完整文档请移步：[docs](https://rapidai.github.io/RapidOCRDocs/main/install_usage/rapidocr_api/usage/)
