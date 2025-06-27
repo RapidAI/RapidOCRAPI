@@ -14,7 +14,10 @@ import uvicorn
 from fastapi import FastAPI, Form, UploadFile
 from PIL import Image
 from rapidocr import RapidOCR
+from starlette.formparsers import MultiPartParser
 
+MultiPartParser.max_part_size = 10 * 1024 * 1024  # 10MB
+MultiPartParser.max_file_size = 20 * 1024 * 1024   # 20MB
 sys.path.append(str(Path(__file__).resolve().parent.parent))
 
 
@@ -36,7 +39,7 @@ class OCRAPIUtils:
             )
 
     def __call__(
-        self, ori_img: Image.Image, use_det=None, use_cls=None, use_rec=None, **kwargs
+            self, ori_img: Image.Image, use_det=None, use_cls=None, use_rec=None, **kwargs
     ) -> Dict:
         img = np.array(ori_img)
         ocr_res = self.ocr(
@@ -48,7 +51,7 @@ class OCRAPIUtils:
 
         out_dict = {}
         for i, (boxes, txt, score) in enumerate(
-            zip(ocr_res.boxes, ocr_res.txts, ocr_res.scores)
+                zip(ocr_res.boxes, ocr_res.txts, ocr_res.scores)
         ):
             out_dict[i] = {"rec_txt": txt, "dt_boxes": boxes.tolist(), "score": score}
         return out_dict
@@ -65,11 +68,11 @@ def root():
 
 @app.post("/ocr")
 def ocr(
-    image_file: Optional[UploadFile] = None,
-    image_data: str = Form(None),
-    use_det: bool = Form(None),
-    use_cls: bool = Form(None),
-    use_rec: bool = Form(None),
+        image_file: Optional[UploadFile] = None,
+        image_data: str = Form(None),
+        use_det: bool = Form(None),
+        use_cls: bool = Form(None),
+        use_rec: bool = Form(None),
 ):
     if image_file:
         img = Image.open(image_file.file)
