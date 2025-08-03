@@ -20,6 +20,13 @@
 - 该包是将[rapidocr](./rapidocr/install.md)库做了API封装，采用[FastAPI](https://fastapi.tiangolo.com/) + [uvicorn](https://www.uvicorn.org/)实现。
 - 定位是一个快速调用`rapidocr`的API接口，没有考虑多进程处理并发请求，如果有这需求的小伙伴，可以看看[gunicorn](https://gunicorn.org/)等。
 
+### 📌 版本依赖关系
+
+|`rapidocr_api`|`rapidocr`|
+|:---|:---|
+|`v0.2.x`|`rapidocr>1.0.0,<3.0.0`|
+|`v0.1.x`|`rapidocr_onnxruntime`|
+
 ### 🛠️ 安装
 
 ```bash linenums="1"
