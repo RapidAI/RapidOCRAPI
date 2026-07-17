@@ -1,0 +1,11 @@
+services:
+  rapidocr_api:
+    image: rapidocr_api:${IMAGE_TAG:-latest}
+    container_name: markdown2png-service
+    ports:
+      - "9003:9003"
+    environment:
+      # 工作进程数量，可与CPU数量相同
+      - WORKERS=4
+    restart: unless-stopped
+
