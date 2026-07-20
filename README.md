@@ -71,6 +71,28 @@ with open(img_path, 'rb') as f:
 print(response.json())
 ```
 
+### 构建镜像
+
+构建镜像:
+```
+sudo docker build -t="rapidocr_api:0.2.0" .
+```
+
+
+启动容器：
+```
+docker run -p 9003:9003 \
+-e WORKERS=16 \
+--name rapidocr_api_v2 \
+--restart always \
+-d rapidocr_api:0.2.0
+```
+
+查看容器内包的版本：
+```
+docker exec -it rapidocr_api_v2 bash -c "pip show rapidocr-onnxruntime && pip show rapidocr_api"
+```
+
 ### 📚 文档
 
 完整文档请移步：[docs](https://rapidai.github.io/RapidOCRDocs/main/install_usage/rapidocr_api/usage/)

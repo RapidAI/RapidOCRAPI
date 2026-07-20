@@ -1,0 +1,49 @@
+# 忽略所有 .git 目录
+.git
+.github
+
+# 忽略所有 .DS_Store 文件（macOS）
+.DS_Store
+
+# 忽略所有 .idea 目录（IntelliJ IDEA）
+.idea
+
+# 忽略所有 .vscode 目录（Visual Studio Code）
+.vscode
+
+# 忽略所有 .pyc 文件
+*.pyc
+
+# 忽略所有 __pycache__ 目录
+__pycache__
+
+# 忽略所有 node_modules 目录
+node_modules
+
+# 忽略所有 log 文件
+logs/
+*.log
+
+# 忽略所有临时文件
+*.tmp
+*.cmd
+
+# 忽略所有 MD 文件
+*.MD
+*.md
+
+# 忽略特定文件
+specific_file.txt
+
+# 环境配置文件不存储
+.env
+
+# 忽略特定目录
+download/
+docker_log/
+publish/
+output/
+docs/
+data_backup/
+tools/
+test_samples/
